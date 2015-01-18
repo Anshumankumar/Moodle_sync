@@ -1,9 +1,9 @@
 import urllib, urllib2, cookielib
 from bs4 import BeautifulSoup
 import os
-
-username = 'anshumankumar'
-password = '14122012+'
+#I will put some encryption to improve this
+username = 'Put Your Username'
+password = 'PuT Your Password'
 
 cj = cookielib.CookieJar()
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
