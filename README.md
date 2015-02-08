@@ -6,6 +6,5 @@ just enter your user name and password and enjoy
 
 Instruction for running the 
 
-chmod +x moodle.py
-
-./moodle.py
+  - chmod +x moodle.py
+  - ./moodle.py
