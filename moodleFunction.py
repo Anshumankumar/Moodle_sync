@@ -23,9 +23,21 @@ def getCourseContent(courselink,openlink):
     coursePage = openlink.open(courselink)
     coursePageB = BeautifulSoup(coursePage)
     coursePageB = coursePageB.find('div', 'course-content')
+    forumInfo =  coursePageB.find('li', 'modtype_forum') 
+    forumLink = forumInfo.find('a').get('href',None)
+    forumPage = BeautifulSoup(openlink.open(forumLink))
+    linkForum = forumPage.find_all('td', 'topic')
     linkInfo = coursePageB.find_all('li', 'modtype_resource')
     for i in range(0,len(linkInfo)):
         linkInfo[i] = linkInfo[i].find('a').get('href',None)
+    for i in range(0,len(linkForum)):
+        linkForum[i] = linkForum[i].find('a').get('href',None)
+        topicPage = BeautifulSoup(openlink.open(linkForum[i]))
+        attacInfo = topicPage.find_all('div', 'attachments')
+        for attac in attacInfo:
+            attac = attac.find('a').get('href',None)
+            linkInfo.append(attac)
+    print linkInfo
     return linkInfo
 
 def saveFiles(filelist,dirname,openlink):
