@@ -19,3 +19,21 @@ def getCourseList(openlink,url):
         courseList[courseName] = linktoCoursePage
     return courseList
 
+def getCourseContent(courselink,openlink):
+    coursePage = openlink.open(courselink)
+    coursePageB = BeautifulSoup(coursePage)
+    coursePageB = coursePageB.find('div', 'course-content')
+    linkInfo = coursePageB.find_all('li', 'modtype_resource')
+    for i in range(0,len(linkInfo)):
+        linkInfo[i] = linkInfo[i].find('a').get('href',None)
+    return linkInfo
+
+def saveFiles(filelist,dirname,openlink):
+    for files in filelist:
+        openfile = openlink.open(files)
+        if  openfile.info()['Content-Type']!="text/html; charset=utf-8":
+            current = openfile.info()['content-disposition'].split('=')[1].replace('"','')
+            f = open(dirname +'/'+str(current), 'wb')
+            f.write(openfile.read())
+            f.close()
+     
