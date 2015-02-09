@@ -1,22 +1,20 @@
-form userInput import userInput
+#!/usr/bin/env python
+# Author: Anshuman kumar
+
+from moodleLogin import moodleLogin
+from moodleFunction import *
 import urllib, urllib2, cookielib
 from bs4 import BeautifulSoup
 import os
 
-
-username = 'Put Your Username'
-password = 'PuT Your Password'
-
-cj = cookielib.CookieJar()
-opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
-login_data = urllib.urlencode({'username' : username, 'password' : password})
-opener.open('http://moodle.iitb.ac.in/login/index.php', login_data)
-resp = opener.open('http://moodle.iitb.ac.in')
-#print resp.read()
 url="http://moodle.iitb.ac.in"
-page=BeautifulSoup(resp)
-start=page.find_all(title="Click to enter this course")
-for tag in start:
+opener = moodleLogin()
+
+courseList = getCourseList(opener,url)
+print (courseList)
+
+""" 
+for  in start:
     link = tag.get('href',None)
     if link != None:
     	new=opener.open(link)
@@ -47,4 +45,4 @@ for tag in start:
 			f = open(Cname+'/'+str(current), 'wb')
 			f.write(response2.read())
 			f.close()
-
+"""
