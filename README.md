@@ -17,3 +17,5 @@ Instruction for running the moodlesync
 
   - chmod +x moodle.py
   - ./moodle.py
+  
+You can also run by typing "python moodle.py" 
