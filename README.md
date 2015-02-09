@@ -5,7 +5,8 @@ It is designed to be used by IIT bombay student.
 just enter your user name and password and enjoy
 
 Install python if you don't have that
-Then install python-bs4
+
+And then install python-bs4
   - if you are running ubuntu or Debian type
       "apt-get install python-bs4"
   - else install pip or easy_install and type
