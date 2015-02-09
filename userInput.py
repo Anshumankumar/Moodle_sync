@@ -17,9 +17,9 @@ def userInput():
         f = open('info','r')
         userInfo = ast.literal_eval(f.read())
     else:    
-        userName = str(raw_input('Enter your Username: '))
+        username = str(raw_input('Enter your Username: '))
         password = str(raw_input('Enter Your password: '))
-        userInfo = {'username':userName, 'password':password}
+        userInfo = {'username':username, 'password':password}
         saveInfoFlag = raw_input("Do you want me to save the username"
                                  " and password(y/n): ")
         if saveInfoFlag.lower()[:1] == 'y':

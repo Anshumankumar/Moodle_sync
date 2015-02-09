@@ -1,7 +1,9 @@
+form userInput import userInput
 import urllib, urllib2, cookielib
 from bs4 import BeautifulSoup
 import os
-#I will put some encryption to improve this
+
+
 username = 'Put Your Username'
 password = 'PuT Your Password'
 
