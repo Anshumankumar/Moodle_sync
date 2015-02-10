@@ -37,7 +37,6 @@ def getCourseContent(courselink,openlink):
         for attac in attacInfo:
             attac = attac.find('a').get('href',None)
             linkInfo.append(attac)
-    print linkInfo
     return linkInfo
 
 def saveFiles(filelist,dirname,openlink):

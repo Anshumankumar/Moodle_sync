@@ -16,6 +16,7 @@ def userInput():
     if os.path.isfile('info'):
         f = open('info','r')
         userInfo = ast.literal_eval(f.read())
+        f.close()
     else:    
         username = str(raw_input('Enter your Username: '))
         password = str(raw_input('Enter Your password: '))
@@ -25,5 +26,6 @@ def userInput():
         if saveInfoFlag.lower()[:1] == 'y':
             f = open('info','w')
             f.write(str(userInfo))
+            f.close()
     return userInfo
     
