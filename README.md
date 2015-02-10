@@ -13,6 +13,9 @@ And then install python-bs4
        easy_install beautifulsoup4 or 
        pip install beautifulsoup4
 
+For windows user you can visit
+  - http://forums.udacity.com/questions/100109344/heres-how-you-install-beautiful-soup-on-windows-7
+
 Instruction for running the moodlesync
 
   - chmod +x moodle.py
