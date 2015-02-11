@@ -1,5 +1,6 @@
-# Author: Anshuman kumar
-# Copyright: Anshuman kumar 2014
+ Author: Anshuman kumar
+ Copyright 2014 Anshuman kumar
+
 
 This is the new version of Moodlesync
 
