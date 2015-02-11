@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # Author: Anshuman kumar
 # Name: moodle.py
 # It syncs all the file from your moodle to a directory in your computer
@@ -17,7 +19,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#!/usr/bin/env python
 from moodleLogin import moodleLogin
 from moodleFunction import *
 import urllib, urllib2, cookielib
