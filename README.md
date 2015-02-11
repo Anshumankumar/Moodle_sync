@@ -1,3 +1,6 @@
+# Author: Anshuman kumar
+# Copyright: Anshuman kumar 2014
+
 This is the new version of Moodlesync
 
 It is designed to be used by IIT bombay student.
