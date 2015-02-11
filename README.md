@@ -1,13 +1,14 @@
- #Author:
+#Author:
  Anshuman kumar
  
- Copyright 2014 Anshuman kumar
+#Copyright 2014 Anshuman kumar
 
 
 This is the new version of Moodlesync
 
 It is designed to be used by IIT bombay student.
 
+#Instructions
 just enter your user name and password and enjoy
 
 Install python if you don't have that
