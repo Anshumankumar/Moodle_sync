@@ -20,7 +20,8 @@
 
 import urllib, urllib2, cookielib
 from bs4 import BeautifulSoup
-
+import ast
+history = {}
 def getCourseList(openlink,url):
     """
         This function takes the login instance of moodle and get all
@@ -44,11 +45,22 @@ def getCourseContent(courselink,openlink):
     coursePageB = coursePageB.find('div', 'course-content')
     forumInfo =  coursePageB.find('li', 'modtype_forum') 
     forumLink = forumInfo.find('a').get('href',None)
+    forumPage = openlink.open(forumLink)
+    print(forumPage.info())
     forumPage = BeautifulSoup(openlink.open(forumLink))
     linkForum = forumPage.find_all('td', 'topic')
-    linkInfo = coursePageB.find_all('li', 'modtype_resource')
+    linkInfo = coursePageB.find_all('li', ['modtype_resource','modtype_url'])
     for i in range(0,len(linkInfo)):
         linkInfo[i] = linkInfo[i].find('a').get('href',None)
+        if '/mod/url' in linkInfo[i]:
+            tempPage = openlink.open(linkInfo[i])
+            tempPageB = BeautifulSoup(tempPage);
+            tempinfo = tempPageB.find_all('div', 'urlworkaround')
+            for k in range(0,len(tempinfo)):
+                linkInfo.append(tempinfo[k].find('a').get('href',None))
+            del linkInfo[i];
+            
+        print(linkInfo[i])
     for i in range(0,len(linkForum)):
         linkForum[i] = linkForum[i].find('a').get('href',None)
         topicPage = BeautifulSoup(openlink.open(linkForum[i]))
@@ -58,12 +70,31 @@ def getCourseContent(courselink,openlink):
             linkInfo.append(attac)
     return linkInfo
 
+def openHistory():
+    global history
+    f = open('history','r')
+    history = ast.literal_eval(f.read())
+    f.close()
+
 def saveFiles(filelist,dirname,openlink):
     for files in filelist:
+        if files in history:
+            print("Already Saved")
+            continue 
         openfile = openlink.open(files)
+        global history
+        history[files] = openfile.info()['Last-Modified']
         if  openfile.info()['Content-Type']!="text/html; charset=utf-8":
-            current = openfile.info()['content-disposition'].split('=')[1].replace('"','')
+            print(openfile.info())
+            try:
+                current = openfile.info()['content-disposition'].split('=')[1].replace('"','')
+            except KeyError:
+                current = files.split('/')[-1]
             f = open(dirname +'/'+str(current), 'wb')
             f.write(openfile.read())
             f.close()
-     
+
+def saveHistory():
+    f = open('history','w')
+    f.write(str(history))
+    f.close()

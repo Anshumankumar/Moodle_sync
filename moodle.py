@@ -27,6 +27,8 @@ import os
 
 url="http://moodle.iitb.ac.in"
 opener = moodleLogin()
+
+openHistory()
 courseList = getCourseList(opener,url)
 for course in courseList.items():
     print(course[0])
@@ -35,4 +37,4 @@ for course in courseList.items():
         os.makedirs(dirName)
     filelinks = getCourseContent(course[1],opener)
     saveFiles(filelinks,dirName,opener)
-    
+saveHistory()    
