@@ -50,7 +50,9 @@ def getCourseContent(courselink,openlink):
     forumPage = BeautifulSoup(openlink.open(forumLink))
     linkForum = forumPage.find_all('td', 'topic')
     linkInfo = coursePageB.find_all('li', ['modtype_resource','modtype_url'])
-    for i in range(0,len(linkInfo)):
+    length = len(linkInfo)
+    i = 0
+    while(i <length):
         linkInfo[i] = linkInfo[i].find('a').get('href',None)
         if '/mod/url' in linkInfo[i]:
             tempPage = openlink.open(linkInfo[i])
@@ -59,8 +61,11 @@ def getCourseContent(courselink,openlink):
             for k in range(0,len(tempinfo)):
                 linkInfo.append(tempinfo[k].find('a').get('href',None))
             del linkInfo[i];
-            
+            length = length -1
+            i = i-1
         print(linkInfo[i])
+        i=i+1
+
     for i in range(0,len(linkForum)):
         linkForum[i] = linkForum[i].find('a').get('href',None)
         topicPage = BeautifulSoup(openlink.open(linkForum[i]))
