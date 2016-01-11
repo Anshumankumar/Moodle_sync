@@ -36,7 +36,8 @@ def getCourseList(openlink,url):
     for courseData in courseDataList:
         linktoCoursePage = courseData.find('a').get('href',None)
         courseName =  str(courseData.find('a').contents[0])
-        courseList[courseName] = linktoCoursePage
+        if (courseName == 'CS 663-2015-1 Fundamentals of Digital Image Processing'):
+            courseList[courseName] = linktoCoursePage
     return courseList
 
 def getCourseContent(courselink,openlink):
@@ -77,27 +78,35 @@ def getCourseContent(courselink,openlink):
 
 def openHistory():
     global history
-    f = open('history','r')
-    history = ast.literal_eval(f.read())
-    f.close()
+    try:
+        f = open('history','r')
+        history = ast.literal_eval(f.read())
+        f.close()
+    except FileNotFoundError:
+        history = {}
 
 def saveFiles(filelist,dirname,openlink):
     for files in filelist:
         if files in history:
             print("Already Saved")
-            continue 
+            continue
+        print(files)
         openfile = openlink.open(files)
         global history
-        history[files] = openfile.info()['Last-Modified']
+        try:
+            history[files] = openfile.info()['Last-Modified']
+        except KeyError:
+            continue
         if  openfile.info()['Content-Type']!="text/html; charset=utf-8":
             print(openfile.info())
             try:
                 current = openfile.info()['content-disposition'].split('=')[1].replace('"','')
             except KeyError:
                 current = files.split('/')[-1]
-            f = open(dirname +'/'+str(current), 'wb')
-            f.write(openfile.read())
-            f.close()
+            if current != '':
+                f = open(dirname +'/'+str(current), 'wb')
+                f.write(openfile.read())
+                f.close()
 
 def saveHistory():
     f = open('history','w')
