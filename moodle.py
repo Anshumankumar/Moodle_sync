@@ -28,13 +28,13 @@ import os
 url="http://moodle.iitb.ac.in"
 opener = moodleLogin()
 
-openHistory()
 courseList = getCourseList(opener,url)
 for course in courseList.items():
     print(course[0])
     dirName='MyCourses/'+ str(course[0])
+    openHistory(dirName)
     if not os.path.exists(dirName):
         os.makedirs(dirName)
     filelinks = getCourseContent(course[1],opener)
     saveFiles(filelinks,dirName,opener)
-saveHistory()    
+    saveHistory(dirName)    

@@ -36,8 +36,8 @@ def getCourseList(openlink,url):
     for courseData in courseDataList:
         linktoCoursePage = courseData.find('a').get('href',None)
         courseName =  str(courseData.find('a').contents[0])
-        if (courseName == 'CS 663-2015-1 Fundamentals of Digital Image Processing'):
-            courseList[courseName] = linktoCoursePage
+#        if (courseName == 'CS 663-2015-1 Fundamentals of Digital Image Processing'):
+        courseList[courseName] = linktoCoursePage
     return courseList
 
 def getCourseContent(courselink,openlink):
@@ -47,7 +47,7 @@ def getCourseContent(courselink,openlink):
     forumInfo =  coursePageB.find('li', 'modtype_forum') 
     forumLink = forumInfo.find('a').get('href',None)
     forumPage = openlink.open(forumLink)
-    print(forumPage.info())
+    #print(forumPage.info())
     forumPage = BeautifulSoup(openlink.open(forumLink))
     linkForum = forumPage.find_all('td', 'topic')
     linkInfo = coursePageB.find_all('li', ['modtype_resource','modtype_url'])
@@ -64,7 +64,7 @@ def getCourseContent(courselink,openlink):
             del linkInfo[i];
             length = length -1
             i = i-1
-        print(linkInfo[i])
+        #print(linkInfo[i])
         i=i+1
 
     for i in range(0,len(linkForum)):
@@ -76,13 +76,13 @@ def getCourseContent(courselink,openlink):
             linkInfo.append(attac)
     return linkInfo
 
-def openHistory():
+def openHistory(dirName):
     global history
     try:
-        f = open('history','r')
+        f = open(dirName +'/history','r')
         history = ast.literal_eval(f.read())
         f.close()
-    except FileNotFoundError:
+    except IOError:
         history = {}
 
 def saveFiles(filelist,dirname,openlink):
@@ -91,14 +91,17 @@ def saveFiles(filelist,dirname,openlink):
             print("Already Saved")
             continue
         print(files)
-        openfile = openlink.open(files)
+        try:
+            openfile = openlink.open(files)
+        except urllib2.HTTPError:
+            continue
         global history
         try:
             history[files] = openfile.info()['Last-Modified']
         except KeyError:
             continue
         if  openfile.info()['Content-Type']!="text/html; charset=utf-8":
-            print(openfile.info())
+            #print(openfile.info())
             try:
                 current = openfile.info()['content-disposition'].split('=')[1].replace('"','')
             except KeyError:
@@ -108,7 +111,7 @@ def saveFiles(filelist,dirname,openlink):
                 f.write(openfile.read())
                 f.close()
 
-def saveHistory():
-    f = open('history','w')
+def saveHistory(dirName):
+    f = open(dirName + '/history','w')
     f.write(str(history))
     f.close()
