@@ -23,13 +23,30 @@ from moodleLogin import moodleLogin
 from moodleFunction import *
 import urllib, urllib2, cookielib
 from bs4 import BeautifulSoup
+import easygui as eg
 import os
+import pickle
 
 url="http://moodle.iitb.ac.in"
 opener = moodleLogin()
 
 courseList = getCourseList(opener,url)
-for course in courseList.items():
+try:
+    f = open('course','r')
+    choice = f.read().splitlines()
+except IOError:
+    choice =eg.multchoicebox("Courses to Sync","MoodleSync",courseList.keys())
+    f = open('course','w')
+    f.write("\n".join(choice))
+    f.close()
+
+
+cList ={}
+for course in choice:
+    cList[course] = courseList[course]
+
+
+for course in cList.items():
     print(course[0])
     dirName='MyCourses/'+ str(course[0])
     openHistory(dirName)
@@ -37,4 +54,5 @@ for course in courseList.items():
         os.makedirs(dirName)
     filelinks = getCourseContent(course[1],opener)
     saveFiles(filelinks,dirName,opener)
-    saveHistory(dirName)    
+    saveHistory(dirName)
+
